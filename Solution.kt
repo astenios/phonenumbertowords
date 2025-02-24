@@ -10,6 +10,7 @@ class Solution {
     companion object {
         @JvmStatic
         fun getWords1digit() = Stream.of(
+            Arguments.of("1", listOf<String>("1")),
             Arguments.of("2", listOf<String>("A", "B", "C")),
             Arguments.of("3", listOf<String>("D", "E", "F")),
             Arguments.of("4", listOf<String>("G", "H", "I")),
@@ -18,6 +19,7 @@ class Solution {
             Arguments.of("7", listOf<String>("P", "Q", "R", "S")),
             Arguments.of("8", listOf<String>("T", "U", "V")),
             Arguments.of("9", listOf<String>("W", "X", "Y", "Z")),
+            Arguments.of("0", listOf<String>("0")),
         )
     }
 
