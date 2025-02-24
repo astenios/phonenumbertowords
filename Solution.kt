@@ -54,7 +54,7 @@ class Solution {
 
     @ParameterizedTest
     @MethodSource("getWords1digit")
-    fun `should return a list of 3 elements if the phoneNumber is only one number between 2 and 0`(
+    fun `should return a list if the phoneNumber has only one number`(
         phoneNumber: String, expected: List<String>
     ) {
         val words = Solution().getWords(phoneNumber = phoneNumber)
