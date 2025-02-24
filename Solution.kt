@@ -46,7 +46,7 @@ class Solution {
     }
 
     private fun recursiveLetters(words: List<String>, phoneNumber: String): List<String> {
-        if  (phoneNumber.isNullOrBlank()) return words
+        if  (phoneNumber.isBlank()) return words
 
         val digit = phoneNumber[0].toString()
         val digitLetters = numberToLetters.getOrDefault(digit, listOf(digit))
@@ -59,7 +59,6 @@ class Solution {
                 newWords.addAll(words.map { w -> w + letter })
             }
         }
-        println(newWords)
         return recursiveLetters(newWords, phoneNumber.drop(1))
     }
 
@@ -87,5 +86,17 @@ class Solution {
         val words = Solution().getWords(phoneNumber = phoneNumber)
         assertTrue(words.containsAll(expected))
         assertTrue(expected.containsAll(words))
+    }
+
+    @Test
+    fun `should return FLOWERS for 3569377`() {
+        val words = Solution().getWords(phoneNumber = "3569377")
+        assertTrue(words.contains("FLOWERS"))
+    }
+
+    @Test
+    fun `should return MY1BANK for 3569377`() {
+        val words = Solution().getWords(phoneNumber = "6912265")
+        assertTrue(words.contains("MY1BANK"))
     }
 }
