@@ -21,6 +21,12 @@ class Solution {
             Arguments.of("9", listOf<String>("W", "X", "Y", "Z")),
             Arguments.of("0", listOf<String>("0")),
         )
+
+        @JvmStatic
+        fun getWords2digit() = Stream.of(
+            Arguments.of("12", listOf<String>("1A",  "1B", "1C")),
+            Arguments.of("23", listOf<String>("AD", "AE", "AF", "BD", "BE", "BF", "CD", "CE", "CF")),
+        )
     }
 
     val numberToLetters: Map<String, List<String>> = mapOf(
@@ -36,14 +42,25 @@ class Solution {
 
     fun getWords(phoneNumber: String): List<String> {
         val words = mutableListOf<String>()
+        return recursiveLetters(words, phoneNumber)
+    }
+
+    private fun recursiveLetters(words: List<String>, phoneNumber: String): List<String> {
         if  (phoneNumber.isNullOrBlank()) return words
 
-        for (i in 0..phoneNumber.length - 1) {
-            val digit = phoneNumber[i].toString()
-            val digitLetters = numberToLetters.getOrDefault(digit, listOf(digit))
-            words.addAll(digitLetters)
+        val digit = phoneNumber[0].toString()
+        val digitLetters = numberToLetters.getOrDefault(digit, listOf(digit))
+
+        val newWords = mutableListOf<String>()
+        digitLetters.forEach { letter ->
+            if (words.isEmpty()) {
+                newWords.add(letter)
+            } else {
+                newWords.addAll(words.map { w -> w + letter })
+            }
         }
-        return words
+        println(newWords)
+        return recursiveLetters(newWords, phoneNumber.drop(1))
     }
 
     @Test
@@ -54,7 +71,17 @@ class Solution {
 
     @ParameterizedTest
     @MethodSource("getWords1digit")
-    fun `should return a list if the phoneNumber has only one number`(
+    fun `should return a list if the phoneNumber has only one digit`(
+        phoneNumber: String, expected: List<String>
+    ) {
+        val words = Solution().getWords(phoneNumber = phoneNumber)
+        assertTrue(words.containsAll(expected))
+        assertTrue(expected.containsAll(words))
+    }
+
+    @ParameterizedTest
+    @MethodSource("getWords2digit")
+    fun `should return a list if the phoneNumber has only two digits`(
         phoneNumber: String, expected: List<String>
     ) {
         val words = Solution().getWords(phoneNumber = phoneNumber)
